@@ -14,3 +14,10 @@
   };
 
   let currentState=GAME_STATE.MENU;
+
+  let playButton={
+    x:boardWidth/2-115.2/2,
+    y:boardHeight/2-64/2,
+    width:115,
+    height:64
+  }
