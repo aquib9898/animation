@@ -28,3 +28,25 @@
     width:300,
     height:100
   }
+
+  let flappyBirdTextImg= new Image();
+  flappyBirdTextImg.src="./flappyBirdLogo.png";
+
+  let gameOverImg=new Image();
+  gameOverImg.src="./flappy-gameover.png";
+
+  let bird={
+    x:50,
+    y:boardHeight/2,
+    width:40,
+    height:30
+  }
+
+  let velocityY=0;
+  let velocityX=-2;
+  let gravity = 0.5;
+  let birdY=boardHeight/2;
+  let pipeWidth=50;
+  let pipeGap=200;
+  let Pipearray=[];
+  let pipeIntervalId;
