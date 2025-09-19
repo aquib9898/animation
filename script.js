@@ -21,3 +21,10 @@
     width:115,
     height:64
   }
+
+  let logo={
+    x:boardWidth/2-300/2,
+    y:boardHeight/4,
+    width:300,
+    height:100
+  }
