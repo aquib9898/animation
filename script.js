@@ -50,3 +50,42 @@
   let pipeGap=200;
   let Pipearray=[];
   let pipeIntervalId;
+
+  function createPipe(){
+    let maxTopPipeHeight=boardHeight-pipeGap-50;
+    let topPipeHeight=Math.floor(Math.random()*maxTopPipeHeight);
+    let bottomPipeHeight=boardHeight-topPipeHeight-pipeGap;
+
+    let topPipe={
+        x:boardWidth,
+        y:boardHeight,
+        width:pipeWidth,
+        height:topPipeHeight,
+        passed:false
+    };
+
+
+    let bottomPipe={
+        x:boardWidth,
+        y:topPipe+pipeGap,
+        width:pipeWidth,
+        height:bottomPipeHeight,
+        passed:false
+
+    };
+    Pipearray.pish(topPipe,bottomPipe);
+  }
+
+
+  window.onload = function(){
+    board=document.getElementById("board");
+    board.height=boardHeight;
+    board.width=boardWidth;
+    context=board.getContext("2d");
+
+    birdImg=new Image();
+    birdImg.src="./flappybird.png";
+
+  }
+    
+  
