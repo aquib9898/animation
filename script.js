@@ -48,7 +48,7 @@
   let birdY=boardHeight/2;
   let pipeWidth=50;
   let pipeGap=200;
-  let Pipearray=[];
+  let pipeArray=[];
   let pipeIntervalId;
 
   function createPipe(){
@@ -73,7 +73,7 @@
         passed:false
 
     };
-    Pipearray.pish(topPipe,bottomPipe);
+    pipeArray.push(topPipe,bottomPipe);
   }
 
 
@@ -127,9 +127,46 @@
         let scaledWidth = logo.width;
         let scaledHeight=(flappyBirdTextImg.height/flappyBirdTextImg.width)*scaledWidth;
         context.drawImage(flappyBirdTextImg,logo.x,logo.y,scaledWidth,scaledHeight);
-
-        function renderGame(){}
     }
+    }
+
+        function renderGame(){
+            velocityY+=gravity;
+            bird.y=Math,max(bird.y+velocityY,0);
+            context.drawImage(birdImg,bird.x,bird.y,bird.width,bird.height);
+
+            if(bird.y>board.height){
+                currentState = GAME_STATE.GAME_OVER;
+            }
+            for(let i=0;i<pipeArray.length;i++){
+                let pipe = pipeArray[i];
+                pipe.x += velocityX;
+
+                context.drawImage(topPipeImg,pipe.x,pipe.y,pipe.width,pipe.height);
+
+                if(!pipepassed && bird.x > pipe.x + pipe.width){
+                    score += 0.5;
+                    pipe.passed = true;
+                }
+
+
+                    if(detectCollision(bird,pipe)){
+                        currentState = GAME_STATE.GAME_OVER;
+                    }
+                
+            }
+
+            while(pipeArray.length > 0 &&  pipeArray[0].x < -pipeWidth){
+                pipeArray.shift();
+            }
+
+            context.fillStyle = "white";
+            context.font="45px sans-serif";
+            context.textAlign = "left";
+            context.fillText(score,5,45);
+
+        }
     
-  }
+    
+ 
   
