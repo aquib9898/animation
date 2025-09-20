@@ -225,4 +225,8 @@
         score=0;
     }
  
-  
+  function detectCollision(a,b){
+    a.x + a.width >b.x &&
+    a.y < b.y + b.height &&
+    a.y + a.height >b.y;
+  }
