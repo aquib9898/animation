@@ -37,7 +37,7 @@
 
 
     let playButtonImg = new Image();
-  playButtonImg.src = "./playbutton.png";
+  playButtonImg.src = "./flappyBirdPlaybutton.png";
 
   let gameOverImg=new Image();
   gameOverImg.src="./flappy-gameover.png";
@@ -50,10 +50,10 @@
   }
 
   let velocityY=0;
-  let velocityX=-2;
-  let gravity = 0.5;
+  let velocityX=-1;
+  let gravity = 0.3;
   let birdY=boardHeight/2;
-  let pipeWidth=50;
+  let pipeWidth=60;
   let pipeGap=200;
   let score=0;
   let pipeArray=[];
@@ -213,7 +213,7 @@
                 resetGame();
                 currentState=GAME_STATE.MENU;
             }else if(currentState === GAME_STATE.PLAYING){
-                velocityY = -6;
+                velocityY = -4.5;
             }
         }
        }
