@@ -1,7 +1,8 @@
   let boardWidth=360;
   let boardHeight=640;
-  board.width=boardWidth;
-  board.height=boardHeight;
+
+  let board, context, birdImg, topPipeImg, bottomPipeImg;
+
   let backgroundImg=new Image();
   backgroundImg.src="./flappybirdbg.png";
   let inputLocked= false;
@@ -18,7 +19,7 @@
   let currentState=GAME_STATE.MENU;
 
   let playButton={
-    x:boardWidth/2-115.2/2,
+    x:boardWidth/2-115/2,
     y:boardHeight/2-64/2,
     width:115,
     height:64
@@ -33,6 +34,10 @@
 
   let flappyBirdTextImg= new Image();
   flappyBirdTextImg.src="./flappyBirdLogo.png";
+
+
+    let playButtonImg = new Image();
+  playButtonImg.src = "./playbutton.png";
 
   let gameOverImg=new Image();
   gameOverImg.src="./flappy-gameover.png";
@@ -112,28 +117,28 @@
     requestAnimationFrame(update);
     context.clearRect(0,0,board.width,board.height);
 
+    if (backgroundImg.complete) {
+        context.drawImage(backgroundImg,0,0,boardWidth,boardHeight);
+    }
+
 
     if(currentState===GAME_STATE.MENU){
         renderMenu();
-    }else if(currentState===GAME_STATE.PLAYING){renderGame();
+        }else if(currentState===GAME_STATE.PLAYING){ renderGame();
 
     }else if(currentState===GAME_STATE.GAME_OVER){renderGameOver();}
   }
 
 
   function renderMenu(){
-    if(backgroundImg.complete){
-        context.drawImage(backgroundImg,0,0,boardWidth,boardHeight);
-    }
-
-
-  
-
-
     if(flappyBirdTextImg.complete){
         let scaledWidth = logo.width;
         let scaledHeight=(flappyBirdTextImg.height/flappyBirdTextImg.width)*scaledWidth;
         context.drawImage(flappyBirdTextImg,logo.x,logo.y,scaledWidth,scaledHeight);
+    }
+
+      if (playButtonImg.complete) {
+        context.drawImage(playButtonImg, playButton.x, playButton.y, playButton.width, playButton.height);
     }
     }
 
@@ -149,13 +154,14 @@
                 let pipe = pipeArray[i];
                 pipe.x += velocityX;
 
-                context.drawImage(pipeImg,pipe.x,pipe.y,pipe.width,pipe.height);
+                context.drawImage(pipe.img,pipe.x,pipe.y,pipe.width,pipe.height);
 
                 if(!pipe.passed && bird.x > pipe.x + pipe.width){
                     score += 0.5;
                     pipe.passed = true;
                 }
 
+            
 
                     if(detectCollision(bird,pipe)){
                         currentState = GAME_STATE.GAME_OVER;
