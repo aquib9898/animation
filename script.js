@@ -166,7 +166,63 @@
             context.fillText(score,5,45);
 
         }
+
+       function renderGameOver(){
+        if(gameOverImg.complete){
+            let imgWidth=400;
+            let imgHeight = 80;
+            let x=(boardWidth-imgWidth)/2;
+            let y = boardHeight/3;
+
+            context.drawImage(gameOverImg,x,y,imgWidth,imgHeight);
+
+            let scoreText = 'Your score: ${Math.floor(score)}';
+            context.fillStyle="white";
+            context.font="45px sans-serif";
+            context.textAlign="center";
+            context.fillText(scoreText,boardWidth/2,y+imgHeight+50);
+
+            inputLocked = true;
+
+            setTimeout(()=>{
+                inputLocked = false;},1000);
+
+
+        }
+       } 
+
+
+       function handleKeyDown(e){
+        if(inputLocked){return;}
+
+        if(e.code==="Space"){
+            if(currentState===GAME_STATE.MENU){startGame();}else if(currentState===GAME_STATE.GAME_OVER){
+                resetGame();
+                currentState=GAME_STATE.MENU;
+            }else if(currentState === GAME_STATE.PLAYING){
+                velocityY = -6;
+            }
+        }
+       }
+
+
+       function startGame(){
+        currentState=GAME_STATE.PLAYING;
+        bird.y=birdY;
+        velocityY=0;
+        pipeArray = [];
+        score=0;
+
+        if(pipeIntervalId){
+            clearInterval(pipeIntervalId);
+        }
+        pipeIntervalId=setInterval(placePipes,1500);
+       }
     
-    
+    function resetGame(){
+        bird.y=birdY;
+        pipeArray=[];
+        score=0;
+    }
  
   
