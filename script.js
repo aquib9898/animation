@@ -86,6 +86,50 @@
     birdImg=new Image();
     birdImg.src="./flappybird.png";
 
+
+    topPipeImg=new Image();
+    topPipeImg.src="./toppipe.png";
+
+    bottomPipeImg= new Image();
+    bottomPipeImg.src="./bottompipe.png";
+
+
+    requestAnimationFrame(update)
   }
     
+
+
+  function update(){
+    requestAnimationFrame(update);
+    context.clearRect(0,0,board.width,board.height);
+
+
+    if(currentState===GAME_STATE.MENU){
+        renderMENU();
+    }else if(currentState===GAME_STATE.PLAYING){renderGame();
+
+    }else if(currentState===GAME_STATE.GAME_OVER){renderGameOver();}
+  }
+
+
+  function renderMenu(){
+    if(backgroundImg.complete){
+        context.drawImage(backgroundImg,0,0,boardWidth,boardHeight);
+    }
+
+
+   if(playButton.complete){
+        context.drawImage(playButton,0,0,boardWidth,boardHeight);
+    }
+
+
+    if(flappyBirdTextImg.complete){
+        let scaledWidth = logo.width;
+        let scaledHeight=(flappyBirdTextImg.height/flappyBirdTextImg.width)*scaledWidth;
+        context.drawImage(flappyBirdTextImg,logo.x,logo.y,scaledWidth,scaledHeight);
+
+        function renderGame(){}
+    }
+    
+  }
   
