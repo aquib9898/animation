@@ -1,5 +1,7 @@
   let boardWidth=360;
   let boardHeight=640;
+  board.width=boardWidth;
+  board.height=boardHeight;
   let backgroundImg=new Image();
   backgroundImg.src="./flappybirdbg.png";
   let inputLocked= false;
@@ -48,28 +50,35 @@
   let birdY=boardHeight/2;
   let pipeWidth=50;
   let pipeGap=200;
+  let score=0;
   let pipeArray=[];
   let pipeIntervalId;
 
-  function createPipe(){
+  function placePipes(){
+    createPipes();
+  }
+
+  function createPipes(){
     let maxTopPipeHeight=boardHeight-pipeGap-50;
     let topPipeHeight=Math.floor(Math.random()*maxTopPipeHeight);
     let bottomPipeHeight=boardHeight-topPipeHeight-pipeGap;
 
     let topPipe={
         x:boardWidth,
-        y:boardHeight,
+        y:0,
         width:pipeWidth,
         height:topPipeHeight,
+        img:topPipeImg,
         passed:false
     };
 
 
     let bottomPipe={
         x:boardWidth,
-        y:topPipe+pipeGap,
+        y:topPipeHeight+pipeGap,
         width:pipeWidth,
         height:bottomPipeHeight,
+        img:bottomPipeImg,
         passed:false
 
     };
@@ -105,7 +114,7 @@
 
 
     if(currentState===GAME_STATE.MENU){
-        renderMENU();
+        renderMenu();
     }else if(currentState===GAME_STATE.PLAYING){renderGame();
 
     }else if(currentState===GAME_STATE.GAME_OVER){renderGameOver();}
@@ -118,9 +127,7 @@
     }
 
 
-   if(playButton.complete){
-        context.drawImage(playButton,0,0,boardWidth,boardHeight);
-    }
+  
 
 
     if(flappyBirdTextImg.complete){
@@ -132,7 +139,7 @@
 
         function renderGame(){
             velocityY+=gravity;
-            bird.y=Math,max(bird.y+velocityY,0);
+            bird.y=Math.max(bird.y+velocityY,0);
             context.drawImage(birdImg,bird.x,bird.y,bird.width,bird.height);
 
             if(bird.y>board.height){
@@ -142,9 +149,9 @@
                 let pipe = pipeArray[i];
                 pipe.x += velocityX;
 
-                context.drawImage(topPipeImg,pipe.x,pipe.y,pipe.width,pipe.height);
+                context.drawImage(pipeImg,pipe.x,pipe.y,pipe.width,pipe.height);
 
-                if(!pipepassed && bird.x > pipe.x + pipe.width){
+                if(!pipe.passed && bird.x > pipe.x + pipe.width){
                     score += 0.5;
                     pipe.passed = true;
                 }
@@ -176,7 +183,7 @@
 
             context.drawImage(gameOverImg,x,y,imgWidth,imgHeight);
 
-            let scoreText = 'Your score: ${Math.floor(score)}';
+            let scoreText = `Your score: ${Math.floor(score)}`;
             context.fillStyle="white";
             context.font="45px sans-serif";
             context.textAlign="center";
@@ -226,7 +233,8 @@
     }
  
   function detectCollision(a,b){
-    a.x + a.width >b.x &&
-    a.y < b.y + b.height &&
-    a.y + a.height >b.y;
+    return a.x < b.x + b.width &&   
+           a.x + a.width > b.x &&   
+           a.y < b.y + b.height &&  
+           a.y + a.height > b.y;    
   }
